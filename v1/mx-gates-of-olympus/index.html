@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Elige Tu Regalo de la Suerte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0b0711;
+    }
+
+    /* 主容器 */
+    .page-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      height: 100%;
+      margin: 0 auto;
+      background: url('../../img/mx-gates-of-olympus-bg.jpg') no-repeat center top;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+    }
+
+    /* 顶部环境暗角（保持在底层背景之上、人物之下） */
+    .page-wrapper::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(10, 12, 35, 0.5) 0%,
+        rgba(0, 0, 0, 0.12) 45%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* 【优化2】底部黑色渐变层移到老虎 Character 上方图层 (z-index: 3) */
+    .bottom-gradient {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 42%;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.45) 45%,
+        rgba(0, 0, 0, 0.88) 80%,
+        rgba(0, 0, 0, 0.98) 100%
+      );
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* 顶部倒计时条 */
+    .top-bar {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      background-color: #ff2c2c;
+      color: #ffffff;
+      text-align: center;
+      padding: 9px 0;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      transition: opacity 0.3s ease;
+    }
+
+    .step-one-content {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      padding: 4.5vh 14px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* 【优化1】调整 H1 字号、行高、底部间距与阴影扩散范围，避免遮挡副标题 */
+    .main-title {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(36px, 10.2vw, 50px);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      
+      /* 黄金质感渐变 */
+      background: linear-gradient(180deg, #fff099 0%, #ffbe1a 50%, #e68a00 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      
+      /* 收紧垂直阴影偏移量，既保留立体感又不会向下侵占副标题 */
+      filter: drop-shadow(0 3px 0px #5c2000) 
+              drop-shadow(0 6px 6px rgba(0, 0, 0, 0.75));
+      margin-bottom: 18px;
+    }
+
+    /* 副标题提升层级并优化清晰度 */
+    .sub-title {
+      position: relative;
+      z-index: 2;
+      color: #ffffff;
+      font-size: clamp(12px, 3.3vw, 15px);
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85), 0 0 12px rgba(0, 0, 0, 0.6);
+      margin-bottom: 3.2vh;
+    }
+
+    .gifts-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 0 10px;
+    }
+
+    /* 【优化3】每个礼物盒轮流心跳动画（周期3.6秒，每个间隔1.2秒依次跳动） */
+    .gift-item {
+      flex: 1;
+      max-width: 135px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      animation: sequentialHeartbeat 3.6s ease-in-out infinite;
+    }
+
+    .gift-item:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .gift-item:nth-child(2) {
+      animation-delay: 1.2s;
+    }
+
+    .gift-item:nth-child(3) {
+      animation-delay: 2.4s;
+    }
+
+    .gift-item:hover,
+    .gift-item:active {
+      transform: scale(1.12);
+    }
+
+    .gift-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45));
+    }
+
+    /* 真实双脉冲心跳动画，占总周期前 30%，其余时间保持静止等待其他礼盒跳动 */
+    @keyframes sequentialHeartbeat {
+      0% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+      6% {
+        transform: scale(1.16);
+        filter: brightness(1.12) drop-shadow(0 0 12px rgba(255, 200, 0, 0.55));
+      }
+      12% {
+        transform: scale(1.03);
+        filter: brightness(1.02);
+      }
+      18% {
+        transform: scale(1.12);
+        filter: brightness(1.08) drop-shadow(0 0 8px rgba(255, 200, 0, 0.4));
+      }
+      26%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+    }
+
+    /* 老虎角色位于 z-index: 2，处于 .bottom-gradient (z-index: 3) 下方 */
+    .character-box {
+      position: absolute;
+      bottom: -4%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 96%;
+      max-width: 460px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .character-box img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* 中奖弹窗遮罩 */
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .page-wrapper.show-win .top-bar,
+    .page-wrapper.show-win .step-one-content {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .page-wrapper.show-win .modal-overlay {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .win-card {
+      position: relative;
+      width: 90%;
+      max-width: 380px;
+      border-radius: 24px;
+      padding: 28px 20px 34px;
+      text-align: center;
+      background: rgba(38, 28, 36, 0.68);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+      transform: scale(0.8);
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      margin-bottom: 10vh;
+    }
+
+    .win-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      padding: 3.5px;
+      background: linear-gradient(90deg, #ff4b9a 0%, #c471ed 50%, #5ce1e6 100%);
+      -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .page-wrapper.show-win .win-card {
+      transform: scale(1);
+    }
+
+    .win-gift-img {
+      width: 115px;
+      height: auto;
+      margin: 0 auto 12px;
+      display: block;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
+    }
+
+    .win-label {
+      color: #ffffff;
+      font-size: clamp(28px, 7.8vw, 38px);
+      font-weight: 800;
+      line-height: 1.1;
+      text-transform: uppercase;
+      text-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .win-amount {
+      color: #ffc700;
+      font-size: clamp(46px, 12.5vw, 62px);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -0.5px;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+      margin: 2px 0;
+    }
+
+    .win-bonus {
+      color: #ffffff;
+      font-size: clamp(30px, 8vw, 40px);
+      font-weight: 800;
+      line-height: 1.1;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      text-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .claim-btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 90%;
+      max-width: 300px;
+      height: 62px;
+      background: linear-gradient(90deg, #43e96b 0%, #17c61b 100%);
+      color: #ffffff;
+      font-size: clamp(20px, 5.5vw, 25px);
+      font-weight: 700;
+      text-decoration: none;
+      text-transform: uppercase;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(30, 205, 45, 0.45);
+      animation: pulseBtn 1.5s infinite;
+      transition: transform 0.15s ease;
+    }
+
+    .claim-btn:active {
+      transform: scale(0.96);
+    }
+
+    @keyframes pulseBtn {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    /* 移动端/矮屏适配微调 */
+    @media (max-height: 680px) {
+      .step-one-content {
+        padding-top: 3vh;
+      }
+      .main-title {
+        margin-bottom: 12px;
+      }
+      .sub-title {
+        margin-bottom: 2vh;
+      }
+      .character-box {
+        width: 86%;
+        bottom: -6%;
+      }
+      .win-card {
+        padding: 20px 16px 24px;
+        margin-bottom: 4vh;
+      }
+      .win-gift-img {
+        width: 95px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<script>AFKClickUrl="https://track.ricoent.com/click";</script>
+<script async src="https://track.ricoent.com/hp"></script>
+
+
+  <div class="page-wrapper" id="pageWrapper">
+    <!-- 顶部倒计时条（巴西葡语） -->
+    <div class="top-bar">
+      EXPIRA EN <span id="timer">05:00</span>
+    </div>
+
+    <!-- 第一页主体内容（巴西葡语） -->
+    <div class="step-one-content">
+      <h1 class="main-title">ELIGE<br>TU REGALO</h1>
+      <p class="sub-title">ELIGE UN REGALO DE LA SUERTE PARA GANAR</p>
+
+      <div class="gifts-container">
+        <div class="gift-item" onclick="openGift()">
+          <img src="../../img/mx-gates-of-olympus-gifts.png" alt="Presente da Sorte 1">
+        </div>
+        <div class="gift-item" onclick="openGift()">
+          <img src="../../img/mx-gates-of-olympus-gifts.png" alt="Presente da Sorte 2">
+        </div>
+        <div class="gift-item" onclick="openGift()">
+          <img src="../../img/mx-gates-of-olympus-gifts.png" alt="Presente da Sorte 3">
+        </div>
+      </div>
+    </div>
+
+    <!-- 老虎角色 (z-index: 2) -->
+    <div class="character-box">
+      <img src="../../img/mx-gates-of-olympus-character-01.png" alt="Fortune Tiger">
+    </div>
+
+    <!-- 底部黑色渐变层 (z-index: 3，覆盖在老虎角色上方) -->
+    <div class="bottom-gradient"></div>
+
+    <!-- 中奖弹窗画面（巴西葡语） -->
+    <div class="modal-overlay" id="winModal">
+      <div class="win-card">
+        <img src="../../img/mx-gates-of-olympus-gifts-opened.png" alt="Presente Premiado" class="win-gift-img">
+        <div class="win-label">¡GANASTE!</div>
+        <div class="win-amount">MX$10,500</div>
+        <div class="win-bonus">BONO</div>
+        <a href="https://track.ricoent.com/click" class="claim-btn">RECLAMAR AHORA</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 倒计时逻辑
+    (function startCountdown() {
+      let timeRemaining = 5 * 60;
+      const timerEl = document.getElementById('timer');
+
+      const interval = setInterval(() => {
+        if (timeRemaining <= 0) {
+          clearInterval(interval);
+          timerEl.textContent = "00:00";
+          return;
+        }
+        timeRemaining--;
+        const minutes = String(Math.floor(timeRemaining / 60)).padStart(2, '0');
+        const seconds = String(timeRemaining % 60).padStart(2, '0');
+        timerEl.textContent = `${minutes}:${seconds}`;
+      }, 1000);
+    })();
+
+    // 选中福袋切换至中奖状态
+    function openGift() {
+      const wrapper = document.getElementById('pageWrapper');
+      wrapper.classList.add('show-win');
+    }
+  </script>
+
+</body>
+</html>
