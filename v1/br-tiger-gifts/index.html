@@ -25,7 +25,7 @@
       background-color: #0b0711;
     }
 
-    /* 主容器 */
+    /* 主容器：如果背景图也转成了 webp，请将下方 .jpg 改为 .webp */
     .page-wrapper {
       position: relative;
       width: 100%;
@@ -41,7 +41,7 @@
       box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
     }
 
-    /* 顶部环境暗角（保持在底层背景之上、人物之下） */
+    /* 顶部环境暗角 */
     .page-wrapper::before {
       content: "";
       position: absolute;
@@ -56,7 +56,7 @@
       pointer-events: none;
     }
 
-    /* 【优化2】底部黑色渐变层移到老虎 Character 上方图层 (z-index: 3) */
+    /* 底部黑色渐变层 (z-index: 3) */
     .bottom-gradient {
       position: absolute;
       left: 0;
@@ -102,7 +102,7 @@
       transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
-    /* 【优化1】调整 H1 字号、行高、底部间距与阴影扩散范围，避免遮挡副标题 */
+    /* 主标题 */
     .main-title {
       position: relative;
       z-index: 1;
@@ -111,19 +111,15 @@
       line-height: 1.08;
       letter-spacing: -0.5px;
       text-transform: uppercase;
-      
-      /* 黄金质感渐变 */
       background: linear-gradient(180deg, #fff099 0%, #ffbe1a 50%, #e68a00 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      
-      /* 收紧垂直阴影偏移量，既保留立体感又不会向下侵占副标题 */
       filter: drop-shadow(0 3px 0px #5c2000) 
               drop-shadow(0 6px 6px rgba(0, 0, 0, 0.75));
       margin-bottom: 18px;
     }
 
-    /* 副标题提升层级并优化清晰度 */
+    /* 副标题 */
     .sub-title {
       position: relative;
       z-index: 2;
@@ -145,7 +141,7 @@
       padding: 0 10px;
     }
 
-    /* 【优化3】每个礼物盒轮流心跳动画（周期3.6秒，每个间隔1.2秒依次跳动） */
+    /* 礼物盒轮流心跳动画 */
     .gift-item {
       flex: 1;
       max-width: 135px;
@@ -178,7 +174,6 @@
       filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45));
     }
 
-    /* 真实双脉冲心跳动画，占总周期前 30%，其余时间保持静止等待其他礼盒跳动 */
     @keyframes sequentialHeartbeat {
       0% {
         transform: scale(1);
@@ -202,7 +197,7 @@
       }
     }
 
-    /* 老虎角色位于 z-index: 2，处于 .bottom-gradient (z-index: 3) 下方 */
+    /* 老虎角色 (z-index: 2) */
     .character-box {
       position: absolute;
       bottom: -4%;
@@ -373,46 +368,43 @@
 </head>
 <body>
 
-<script>AFKClickUrl="https://track.ricoent.com/click";</script>
-<script async src="https://track.ricoent.com/hp"></script>
-
-
   <div class="page-wrapper" id="pageWrapper">
-    <!-- 顶部倒计时条（巴西葡语） -->
+    <!-- 顶部倒计时条 -->
     <div class="top-bar">
       EXPIRA EM <span id="timer">05:00</span>
     </div>
 
-    <!-- 第一页主体内容（巴西葡语） -->
+    <!-- 第一页主体内容 -->
     <div class="step-one-content">
       <h1 class="main-title">ESCOLHA<br>SEU PRESENTE</h1>
       <p class="sub-title">ESCOLHA UM PRESENTE DA SORTE PARA GANHAR</p>
 
+      <!-- 【已更新为 .webp】3个礼物盒 -->
       <div class="gifts-container">
         <div class="gift-item" onclick="openGift()">
-          <img src="../../img/br-fortune-tiger-gifts.png" alt="Presente da Sorte 1">
+          <img src="../../img/br-fortune-tiger-gifts.webp" alt="Presente da Sorte 1">
         </div>
         <div class="gift-item" onclick="openGift()">
-          <img src="../../img/br-fortune-tiger-gifts.png" alt="Presente da Sorte 2">
+          <img src="../../img/br-fortune-tiger-gifts.webp" alt="Presente da Sorte 2">
         </div>
         <div class="gift-item" onclick="openGift()">
-          <img src="../../img/br-fortune-tiger-gifts.png" alt="Presente da Sorte 3">
+          <img src="../../img/br-fortune-tiger-gifts.webp" alt="Presente da Sorte 3">
         </div>
       </div>
     </div>
 
-    <!-- 老虎角色 (z-index: 2) -->
+    <!-- 【已更新为 .webp】老虎角色 -->
     <div class="character-box">
-      <img src="../../img/br-fortune-tiger-character-01.png" alt="Fortune Tiger">
+      <img src="../../img/br-fortune-tiger-character-01.webp" alt="Fortune Tiger">
     </div>
 
-    <!-- 底部黑色渐变层 (z-index: 3，覆盖在老虎角色上方) -->
+    <!-- 底部黑色渐变层 -->
     <div class="bottom-gradient"></div>
 
-    <!-- 中奖弹窗画面（巴西葡语） -->
+    <!-- 【已更新为 .webp】中奖弹窗画面 -->
     <div class="modal-overlay" id="winModal">
       <div class="win-card">
-        <img src="../../img/br-fortune-tiger-gifts.png" alt="Presente Premiado" class="win-gift-img">
+        <img src="../../img/br-fortune-tiger-gifts.webp" alt="Presente Premiado" class="win-gift-img">
         <div class="win-label">VOCÊ GANHOU</div>
         <div class="win-amount">R$3.000</div>
         <div class="win-bonus">BÔNUS</div>
