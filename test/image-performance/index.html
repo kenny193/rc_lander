@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+
+  <title>WebP 图片性能测试</title>
+
+  <!-- 提前请求首屏主要图片 -->
+  <link
+    rel="preload"
+    as="image"
+    href="/img/br-fortune-tiger-character-01.webp"
+    type="image/webp"
+    fetchpriority="high">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #f2f4f8;
+      color: #172033;
+    }
+
+    main {
+      width: min(100% - 32px, 480px);
+      margin: 24px auto;
+    }
+
+    h1 { font-size: 26px; }
+
+    .panel {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin: 18px 0;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    .hero {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .gift {
+      width: 160px;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>WebP 图片加载测试</h1>
+    <p>独立静态页面，无广告或跳转。</p>
+
+    <section class="panel">
+      <h2>主要图片</h2>
+
+      <img
+        class="hero"
+        src="/img/br-fortune-tiger-character-01.webp"
+        alt="卡通老虎插画"
+        fetchpriority="high"
+        loading="eager"
+        decoding="async">
+    </section>
+
+    <section class="panel">
+      <h2>次要图片</h2>
+
+      <img
+        class="gift"
+        src="/img/br-fortune-tiger-gifts.webp"
+        alt="礼物插画"
+        loading="lazy"
+        decoding="async">
+    </section>
+  </main>
+</body>
+</html>
