@@ -4,9 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Escolha Seu Presente da Sorte</title>
+
+  <!-- 预连接 Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- 【性能优化】异步加载 Google Fonts，彻底消除 Render-blocking 阻塞 -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+  </noscript>
+
+  <!-- 【性能优化】预加载首屏核心图片（若背景图也转了 webp，请将 .jpg 改为 .webp） -->
+  <link rel="preload" as="image" href="../../img/br-fortune-tiger-bg.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="../../img/br-fortune-tiger-gifts.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="../../img/br-fortune-tiger-character-01.webp" fetchpriority="high">
   
   <style>
     * {
@@ -21,11 +34,12 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      font-family: 'Poppins', sans-serif;
+      /* 增加系统粗体后备字体，在异步字体加载完成前瞬间显示文字 */
+      font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
       background-color: #0b0711;
     }
 
-    /* 主容器：如果背景图也转成了 webp，请将下方 .jpg 改为 .webp */
+    /* 主容器 */
     .page-wrapper {
       position: relative;
       width: 100%;
@@ -379,32 +393,31 @@
       <h1 class="main-title">ESCOLHA<br>SEU PRESENTE</h1>
       <p class="sub-title">ESCOLHA UM PRESENTE DA SORTE PARA GANHAR</p>
 
-      <!-- 【已更新为 .webp】3个礼物盒 -->
       <div class="gifts-container">
         <div class="gift-item" onclick="openGift()">
-          <img src="../../img/br-fortune-tiger-gifts.webp" alt="Presente da Sorte 1">
+          <img src="../../img/br-fortune-tiger-gifts.webp" alt="Presente da Sorte 1" fetchpriority="high" decoding="async">
         </div>
         <div class="gift-item" onclick="openGift()">
-          <img src="../../img/br-fortune-tiger-gifts.webp" alt="Presente da Sorte 2">
+          <img src="../../img/br-fortune-tiger-gifts.webp" alt="Presente da Sorte 2" fetchpriority="high" decoding="async">
         </div>
         <div class="gift-item" onclick="openGift()">
-          <img src="../../img/br-fortune-tiger-gifts.webp" alt="Presente da Sorte 3">
+          <img src="../../img/br-fortune-tiger-gifts.webp" alt="Presente da Sorte 3" fetchpriority="high" decoding="async">
         </div>
       </div>
     </div>
 
-    <!-- 【已更新为 .webp】老虎角色 -->
+    <!-- 老虎角色 -->
     <div class="character-box">
-      <img src="../../img/br-fortune-tiger-character-01.webp" alt="Fortune Tiger">
+      <img src="../../img/br-fortune-tiger-character-01.webp" alt="Fortune Tiger" fetchpriority="high" decoding="async">
     </div>
 
     <!-- 底部黑色渐变层 -->
     <div class="bottom-gradient"></div>
 
-    <!-- 【已更新为 .webp】中奖弹窗画面 -->
+    <!-- 中奖弹窗画面 -->
     <div class="modal-overlay" id="winModal">
       <div class="win-card">
-        <img src="../../img/br-fortune-tiger-gifts.webp" alt="Presente Premiado" class="win-gift-img">
+        <img src="../../img/br-fortune-tiger-gifts.webp" alt="Presente Premiado" class="win-gift-img" decoding="async">
         <div class="win-label">VOCÊ GANHOU</div>
         <div class="win-amount">R$3.000</div>
         <div class="win-bonus">BÔNUS</div>
