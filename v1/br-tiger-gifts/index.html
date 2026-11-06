@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" translate="no">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -461,13 +461,15 @@
       margin-top: 12px;
     }
 
-    .offer-terms {
-      color: rgba(255, 255, 255, 0.82);
+    .offer-terms-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: rgba(255, 255, 255, 0.62);
       font-size: 11px;
       font-weight: 500;
-      line-height: 1.45;
-      text-align: left;
-      margin-top: 10px;
+      line-height: 1.35;
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
 
     .skip-cta:focus-visible,
@@ -534,7 +536,7 @@
 </head>
 <body>
 
-  <div class="page-wrapper" id="pageWrapper">
+  <div class="page-wrapper" id="pageWrapper" translate="no">
     <div class="top-bar" id="expiryBar">
       <span id="expiryRunning" class="expiry-running"><span id="expiryLabel">EXPIRA EM</span><span id="timer" class="timer-digits">05:00.00</span></span>
       <p id="offerStill" class="offer-still" hidden>Sua oferta exclusiva continua disponível — resgate nos primeiros 7 dias após o cadastro.</p>
@@ -595,8 +597,8 @@
         <p class="offer-amount">Até 520% em bônus, limitado a R$3.000, + 325 giros grátis</p>
         <p class="offer-sub">Oferta total dos 3 primeiros depósitos, nos primeiros 7 dias após o cadastro.</p>
         <a id="claimCta" class="claim-btn" href="https://track.ricoent.com/click/1">Ver oferta de boas-vindas</a>
-        <p class="offer-pix">Depósitos via PIX a partir de R$10. Para participar da oferta de boas-vindas, escolha uma opção com depósito mínimo de R$30, R$50 ou R$100.</p>
-        <p class="offer-terms">Oferta válida nos primeiros 7 dias após o cadastro, para os 3 primeiros depósitos. Escolha uma opção por etapa. Valores e giros variam conforme a opção escolhida; o depósito mínimo de R$10 via PIX não dá acesso à oferta de boas-vindas. Antes de depositar, acesse My Rewards, selecione a oferta e toque em “Opt In”; depois, use “Deposit Now”. Requisitos de apostas: slots, 15–20x; esportes, 10–14x; todos os jogos, 25–30x, conforme a opção. O bônus não é dinheiro disponível para saque imediato. Consulte os termos da oferta.</p>
+        <p class="offer-pix">PIX a partir de R$10; para a oferta, depósito mínimo de R$30</p>
+        <a class="offer-terms-link" href="https://www.ricobet.net/terms" target="_blank" rel="noopener noreferrer">Termos e condições aplicáveis</a>
       </div>
     </div>
   </div>
