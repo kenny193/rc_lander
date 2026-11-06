@@ -185,11 +185,11 @@
       background: none;
       border: 0;
       padding: 0;
-      animation: giftNudge 2.6s ease-in-out 1;
+      animation: giftShake 2.8s ease-in-out infinite;
     }
 
-    .gift-item:nth-child(2) { animation-delay: 0.12s; }
-    .gift-item:nth-child(3) { animation-delay: 0.24s; }
+    .gift-item:nth-child(2) { animation-delay: 0.45s; }
+    .gift-item:nth-child(3) { animation-delay: 0.9s; }
 
     .gift-item:hover,
     .gift-item:active {
@@ -201,12 +201,90 @@
       width: 100%;
       height: auto;
       display: block;
-      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45));
+      animation: giftGlow 2.8s ease-in-out infinite;
     }
 
-    @keyframes giftNudge {
-      0%, 100% { transform: scale(1); }
-      45% { transform: scale(1.04); }
+    .gift-item:nth-child(2) img { animation-delay: 0.45s; }
+    .gift-item:nth-child(3) img { animation-delay: 0.9s; }
+
+    @keyframes giftShake {
+      0%, 62%, 100% { transform: translateX(0) rotate(0deg); }
+      70% { transform: translateX(-2px) rotate(-2deg); }
+      78% { transform: translateX(2px) rotate(2deg); }
+      86% { transform: translateX(-1px) rotate(-1deg); }
+      94% { transform: translateX(0) rotate(0deg); }
+    }
+
+    @keyframes giftGlow {
+      0%, 62%, 100% { filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.4)); }
+      78% { filter: drop-shadow(0 0 8px rgba(255, 204, 64, 0.75)); }
+    }
+
+    .deadline {
+      max-width: 36em;
+      margin: 0 0 8px;
+      color: #ffffff;
+      font-size: clamp(12px, 3.2vw, 13.5px);
+      font-weight: 700;
+      line-height: 1.35;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+    }
+
+    .path {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .steps {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      width: 100%;
+    }
+
+    .steps li {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .steps li span {
+      display: block;
+      width: 22px;
+      height: 22px;
+      margin: 0 auto 3px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      line-height: 22px;
+      font-size: 12px;
+    }
+
+    .steps li.is-current {
+      color: #ffffff;
+    }
+
+    .steps li.is-current span {
+      background: #17c61b;
+    }
+
+    .progress {
+      width: 100%;
+      height: 6px;
+      margin-top: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.22);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      display: block;
+      width: 33%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #43e96b, #ffc700);
     }
 
     .skip-cta {
@@ -409,8 +487,11 @@
 
     @media (max-height: 620px) {
       .main-title { font-size: 22px; }
-      .sub-title { font-size: 12px; margin-bottom: 6px; }
+      .sub-title { font-size: 12px; margin-bottom: 4px; }
+      .deadline { font-size: 11px; margin-bottom: 4px; }
       .gift-item { max-width: 84px; }
+      .steps li { font-size: 10px; }
+      .steps li span { width: 18px; height: 18px; line-height: 18px; font-size: 11px; }
       .gifts-container { gap: 8px; }
       .offer-gift-img { display: none; }
       .offer-card { padding: 14px 12px 12px; }
@@ -420,6 +501,10 @@
       .top-bar { font-size: 12px; padding: 3px 8px; }
       .offer-still { font-size: 11px; }
       .step-one-content { padding: 6px 10px 2px; }
+      .deadline { font-size: 10px; margin-bottom: 2px; }
+      .path { margin-top: 4px; }
+      .steps li { font-size: 9.5px; }
+      .progress { height: 4px; margin-top: 4px; }
       .main-title { font-size: 20px; }
       .gift-item { max-width: 68px; }
       .skip-cta { min-height: 44px; margin-top: 6px; padding: 6px 12px; font-size: 13px; }
@@ -436,6 +521,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       .gift-item,
+      .gift-item img,
       .claim-btn,
       .offer-card,
       .step-one-content,
@@ -451,7 +537,7 @@
   <div class="page-wrapper" id="pageWrapper">
     <div class="top-bar" id="expiryBar">
       <span id="expiryRunning" class="expiry-running"><span id="expiryLabel">EXPIRA EM</span><span id="timer" class="timer-digits">05:00.00</span></span>
-      <p id="offerStill" class="offer-still" hidden>Sua oferta exclusiva continua disponível — veja a oferta nos primeiros 7 dias após o cadastro.</p>
+      <p id="offerStill" class="offer-still" hidden>O tempo desta página encerrou. O bônus de boas-vindas segue disponível: conclua os 3 primeiros depósitos nos primeiros 7 dias após o cadastro.</p>
     </div>
     <script>
       (function () {
@@ -468,6 +554,7 @@
     <div class="step-one-content">
       <h1 class="main-title">ESCOLHA<br>SEU PRESENTE</h1>
       <p class="sub-title">Escolha um presente para ver a oferta de boas-vindas</p>
+      <p class="deadline">Oferta total dos 3 primeiros depósitos, nos primeiros 7 dias após o cadastro.</p>
 
       <div class="gifts-container">
         <button type="button" class="gift-item" onclick="openGift()">
@@ -481,7 +568,18 @@
         </button>
       </div>
 
-      <a id="skipCta" class="skip-cta" href="https://track.ricoent.com/click">Pular — ver oferta de boas-vindas</a>
+      <div class="path">
+        <ol class="steps">
+          <li class="is-current"><span>1</span> Cadastro</li>
+          <li><span>2</span> 1º depósito via PIX</li>
+          <li><span>3</span> Resgatar bônus</li>
+        </ol>
+        <div class="progress" role="img" aria-label="Passo atual: 1, cadastro. Depois, 1º depósito via PIX e resgatar o bônus.">
+          <span class="progress-fill"></span>
+        </div>
+      </div>
+
+      <a id="skipCta" class="skip-cta" href="https://track.ricoent.com/click/2">Pular — ver oferta de boas-vindas</a>
     </div>
 
     <div class="character-box">
@@ -496,7 +594,7 @@
         <h2 class="offer-title">Bônus de boas-vindas</h2>
         <p class="offer-amount">Até 520% em bônus, limitado a R$3.000, + 325 giros grátis</p>
         <p class="offer-sub">Oferta total dos 3 primeiros depósitos, nos primeiros 7 dias após o cadastro.</p>
-        <a id="claimCta" class="claim-btn" href="https://track.ricoent.com/click">Ver oferta de boas-vindas</a>
+        <a id="claimCta" class="claim-btn" href="https://track.ricoent.com/click/1">Ver oferta de boas-vindas</a>
         <p class="offer-pix">Depósitos via PIX a partir de R$10. Para participar da oferta de boas-vindas, escolha uma opção com depósito mínimo de R$30, R$50 ou R$100.</p>
         <p class="offer-terms">Oferta válida nos primeiros 7 dias após o cadastro, para os 3 primeiros depósitos. Escolha uma opção por etapa. Valores e giros variam conforme a opção escolhida; o depósito mínimo de R$10 via PIX não dá acesso à oferta de boas-vindas. Antes de depositar, acesse My Rewards, selecione a oferta e toque em “Opt In”; depois, use “Deposit Now”. Requisitos de apostas: slots, 15–20x; esportes, 10–14x; todos os jogos, 25–30x, conforme a opção. O bônus não é dinheiro disponível para saque imediato. Consulte os termos da oferta.</p>
       </div>
@@ -505,7 +603,8 @@
 
   <script>
     var CONFIG = {
-      ctaUrl: "https://track.ricoent.com/click",
+      ctaUrl: "https://track.ricoent.com/click/1",
+      ctaUrlSkip: "https://track.ricoent.com/click/2",
       passParams: true
     };
 
@@ -523,7 +622,7 @@
     }
 
     var claimUrl = buildUrl(CONFIG.ctaUrl, "tiger_gift");
-    var skipUrl = buildUrl(CONFIG.ctaUrl, "tiger_skip");
+    var skipUrl = buildUrl(CONFIG.ctaUrlSkip, "tiger_skip");
     document.getElementById("claimCta").href = claimUrl;
     document.getElementById("skipCta").href = skipUrl;
 
